@@ -40,7 +40,7 @@
             
             <!-- Skills Section -->
             <section>
-                <h2 class="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4 border-b border-slate-100 pb-2">Skills</h2>
+                <h2 class="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4 border-b border-slate-100 pb-2">Навыки</h2>
                 <div class="space-y-6">
                     {% for category, skills in data.skills.items() %}
                     <div>
@@ -59,7 +59,7 @@
 
             <!-- Education Section -->
             <section>
-                <h2 class="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4 border-b border-slate-100 pb-2">Education</h2>
+                <h2 class="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4 border-b border-slate-100 pb-2">Образование</h2>
                 <div class="space-y-4">
                     {% for edu in data.education %}
                     <div>
@@ -78,7 +78,7 @@
             
             <!-- Summary -->
             <section>
-                <h2 class="text-sm font-bold uppercase tracking-widest text-slate-400 mb-3 border-b border-slate-100 pb-2">Professional Summary</h2>
+                <h2 class="text-sm font-bold uppercase tracking-widest text-slate-400 mb-3 border-b border-slate-100 pb-2">Профессиональное резюме</h2>
                 <p class="text-slate-600 leading-relaxed">
                     {{ data.summary }}
                 </p>
@@ -86,7 +86,7 @@
 
             <!-- Experience -->
             <section>
-                <h2 class="text-sm font-bold uppercase tracking-widest text-slate-400 mb-6 border-b border-slate-100 pb-2">Experience</h2>
+                <h2 class="text-sm font-bold uppercase tracking-widest text-slate-400 mb-6 border-b border-slate-100 pb-2">Опыт</h2>
                 <div class="space-y-8">
                     {% for exp in data.experience %}
                     <div class="relative pl-6 border-l-2 border-slate-100">
@@ -110,7 +110,7 @@
 
             <!-- Projects -->
             <section>
-                <h2 class="text-sm font-bold uppercase tracking-widest text-slate-400 mb-6 border-b border-slate-100 pb-2">Key Projects</h2>
+                <h2 class="text-sm font-bold uppercase tracking-widest text-slate-400 mb-6 border-b border-slate-100 pb-2">Ключевые проекты</h2>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {% for project in data.projects %}
                     <div class="p-4 bg-slate-50 rounded-lg border border-slate-200 hover:border-blue-300 transition-colors group">

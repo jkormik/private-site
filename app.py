@@ -35,14 +35,14 @@ app.register_blueprint(admin_bp)
 # --- Resume Data ---
 RESUME_DATA = {
     "personal_info": {
-        "name": "Alex Shepherd",
-        "title": "Senior Full-Stack Engineer",
-        "email": "alex.shepherd@example.com",
-        "phone": "+1 (555) 000-0000",
-        "location": "New York, NY",
+        "name": "Андрей Сычёв",
+        "title": "Full-Stack python-разработчик",
+        "email": "joshuakormik@yandex.ru",
+        "phone": "+7 (962) 991-67-00",
+        "location": "Москва",
         "links": [
-            {"name": "LinkedIn", "url": "https://linkedin.com/in/username", "icon": "linkedin"},
-            {"name": "GitHub", "url": "https://github.com/username", "icon": "github"},
+            {"name": "Telegram", "url": "https://t.me/Jaunmia", "icon": "telegram"},
+            {"name": "GitHub", "url": "https://github.com/jkormik", "icon": "github"},
             {"name": "Portfolio", "url": "https://portfolio.example.com", "icon": "globe"},
         ]
     },
@@ -71,17 +71,16 @@ RESUME_DATA = {
     ],
     "education": [
         {
-            "institution": "University of Technology",
-            "degree": "B.S. in Computer Science",
-            "duration": "2013 - 2017",
-            "honor": "Summa Cum Laude"
+            "institution": "Московский Энергетический Институт",
+            "degree": "Специалист по теоретической и прикладной лингвистике",
+            "duration": "2008 - 2013"
         }
     ],
     "skills": {
-        "Languages": ["Python", "JavaScript", "TypeScript", "SQL", "HTML/CSS"],
-        "Frameworks": ["Flask", "FastAPI", "React", "Vue.js", "Tailwind CSS"],
-        "Tools": ["Docker", "Kubernetes", "Git", "AWS", "PostgreSQL", "Redis"],
-        "Soft Skills": ["Team Leadership", "Agile Methodology", "Technical Writing"]
+        "Языки": ["Python", "JavaScript", "TypeScript", "SQL", "HTML/CSS"],
+        "Фреймфорки": ["Flask", "Django", "FastAPI", "React", "Vue.js", "Tailwind CSS", "Selenium"],
+        "Инструменты": ["Docker", "Kubernetes", "Git", "AWS", "PostgreSQL", "Redis"],
+        "Soft Skills": ["Лидерские качества", "Agile методология", "Стрессоустойчивость"]
     },
     "projects": [
         {
