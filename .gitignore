@@ -10,5 +10,5 @@ wheels/
 .venv
 
 # misc
-AGENTS.md
-PLAN.md
+/AGENTS.md
+/PLAN.md
