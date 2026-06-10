@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Home | Professional Resume{% endblock %}
+
+{% block content %}
+<div class="text-center py-20">
+    <h1 class="text-4xl font-extrabold text-slate-900 sm:text-5xl mb-4">
+        Welcome to my Professional Site
+    </h1>
+    <p class="text-lg text-slate-600 max-w-2xl mx-auto">
+        This is the homepage. In Phase 2, this will be replaced by a polished, professional resume.
+    </p>
+    <div class="mt-8">
+        <a href="{{ url_for('blog.index') }}" class="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+            Visit my Blog
+        </a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My Professional Site{% endblock %}</title>
+    
+    <!-- Tailwind CSS CDN for development speed, but including the local compiled CSS as per PLAN.md -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    
+    <style>
+        /* Additional global styles if absolutely necessary, but sticking to Tailwind */
+        :root {
+            --accent-color: #2563eb; /* A professional blue */
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 font-sans leading-normal flex flex-col min-h-screen">
+
+    <!-- Navigation Bar -->
+    <nav class="bg-white border-b border-slate-200 py-4">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <a href="{{ url_for('home') }}" class="text-xl font-bold tracking-tight text-slate-900 hover:text-blue-600 transition-colors">
+                Professional<span class="text-blue-600">Resume</span>
+            </a>
+            
+            <!-- Mobile Menu Toggle (Simplified for Phase 1) -->
+            <div class="flex space-x-6 items-center">
+                <a href="{{ url_for('home') }}" class="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors">Home</a>
+                <a href="{{ url_for('blog.index') }}" class="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors">Blog</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow py-10">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            {% block content %}
+            <!-- Content from child templates goes here -->
+            {% endblock %}
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-8">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-slate-500 text-sm">
+            <p>&copy; {{ 2026 }} Professional Resume Site. Built with Flask & Tailwind CSS.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
