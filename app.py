@@ -18,6 +18,10 @@ app.config['SECRET_KEY'] = 'dev-secret-key-change-this-in-production'
 # Initialize SQLAlchemy
 db.init_app(app)
 
+with app.app_context():
+    db.create_all()
+
+
 
 # --- Blueprints ---
 # Register the blog blueprint. 
