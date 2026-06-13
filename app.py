@@ -46,16 +46,15 @@ RESUME_DATA = {
             {"name": "Portfolio", "url": "https://portfolio.example.com", "icon": "globe"},
         ]
     },
-    "summary": "Dedicated software engineer with over 8 years of experience building scalable web applications. Expert in Python, Flask, and modern frontend frameworks, with a proven track record of improving system performance and leading cross-functional teams.",
+    "summary": "Увлеченный рзработчик с более чем 4-летним опытом построения масштабируемых веб-приложений. Знаток в области Python, Flask, Django, Selenium и иных современных фреймворков, с подтвержденным опытом ускорения у улучшения производительности систем.",
     "experience": [
         {
-            "company": "TechInnovate Solutions",
-            "role": "Senior Software Engineer",
-            "duration": "2020 - Present",
+            "company": "Centersvet",
+            "role": "Python-разработчик",
+            "duration": "2022 - Present",
             "description": [
-                "Led the migration of a monolithic legacy system to a microservices architecture, reducing deployment time by 40%.",
-                "Optimized database queries using SQLAlchemy and Redis, improving page load speeds by 200ms.",
-                "Mentored 5 junior developers and established a new code review process that reduced production bugs by 15%."
+                "Вел разработку и внедрение комплексной системы мониторинга работоспособности веб-сайта. Система использовала Selenium для автоматизированного функционального тестирования ключевых путей пользователя (error tracking), обеспечивая проактивное обнаружение ошибок в реальном времени. Настроена интеграция с Telegram Bot API для моментального оповещения ответственных команд о выявленных инцидентах, что значительно сократило время реагирования на критические ошибки сайта.",
+            "Запустил процесс ведения документации с автоматизированным доступом к информации, что на 20% повысило скорость онбординга новых сотрудников."
             ]
         },
         {
