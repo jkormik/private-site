@@ -46,10 +46,10 @@ RESUME_DATA = {
             {"name": "Portfolio", "url": "https://portfolio.example.com", "icon": "globe"},
         ]
     },
-    "summary": "Увлеченный рзработчик с более чем 4-летним опытом построения масштабируемых веб-приложений. Знаток в области Python, Flask, Django, Selenium и иных современных фреймворков, с подтвержденным опытом ускорения у улучшения производительности систем.",
+    "summary": "Разработчик с более чем 4-летним опытом построения масштабируемых веб-приложений. Знаток в области Python, Flask, Django, Selenium, с подтвержденным опытом ускорения у улучшения производительности систем.",
     "experience": [
         {
-            "company": "Centersvet",
+            "company": "SWG",
             "role": "Python-разработчик",
             "duration": "2022 - Present",
             "description": [
@@ -58,8 +58,8 @@ RESUME_DATA = {
             ]
         },
         {
-            "company": "WebFlow Dynamics",
-            "role": "Full-Stack Developer",
+            "company": " RUFOOTAGE",
+            "role": "Специлист по хранения и обработке данных",
             "duration": "2017 - 2020",
             "description": [
                 "Developed a real-time analytics dashboard using Flask and WebSocket, used by 50+ corporate clients.",
@@ -70,7 +70,7 @@ RESUME_DATA = {
     ],
     "education": [
         {
-            "institution": "Московский Энергетический Институт",
+            "institution": "Московский энергетический институт (Национальный исследовательский университет)",
             "degree": "Специалист по теоретической и прикладной лингвистике",
             "duration": "2008 - 2013"
         }
@@ -78,21 +78,15 @@ RESUME_DATA = {
     "skills": {
         "Языки": ["Python", "JavaScript", "TypeScript", "SQL", "HTML/CSS"],
         "Фреймфорки": ["Flask", "Django", "FastAPI", "React", "Vue.js", "Tailwind CSS", "Selenium"],
-        "Инструменты": ["Docker", "Kubernetes", "Git", "AWS", "PostgreSQL", "Redis"],
+        "Инструменты": ["Docker", "Kubernetes", "Git", "FFmpeg", "PostgreSQL", "Redis"],
         "Soft Skills": ["Лидерские качества", "Agile методология", "Стрессоустойчивость"]
     },
     "projects": [
         {
-            "name": "OpenSource Project X",
-            "description": "A high-performance distributed task queue implemented in Python.",
-            "tech_stack": ["Python", "Redis", "Docker"],
-            "link": "https://github.com/username/project-x"
-        },
-        {
-            "name": "E-Commerce Engine",
-            "description": "A custom-built headless commerce API supporting multi-currency and global shipping.",
-            "tech_stack": ["Flask", "PostgreSQL", "Stripe API"],
-            "link": "https://github.com/username/ecommerce-engine"
+            "name": "CSVMonitorFast",
+            "description": "Инструмент для парсинга и инализа категорий продуктов. Автоматизированный сбор данных, извлечение атрибутов, ежедневный мониторинг изменений версий сайта с оповещениями в Telegram.",
+            "tech_stack": ["Python", "Selenium"],
+            "link": "https://github.com/jkormik/csvmonitorfast"
         }
     ]
 }
