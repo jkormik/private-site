@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 
 {% block title %}{{ data.personal_info.name }} | Professional Resume{% endblock %}
+{% block meta_description %}Professional resume and portfolio of {{ data.personal_info.name }}, {{ data.personal_info.title }}. Exploring the intersection of scalable systems and clean design.{% endblock %}
+{% block meta_keywords %}{{ data.personal_info.title }}, software engineering, portfolio, {{ data.personal_info.location }}{% endblock %}
 
 {% block content %}
 <div class="max-w-4xl mx-auto bg-white shadow-xl rounded-2xl overflow-hidden border border-slate-200">

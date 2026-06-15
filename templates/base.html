@@ -3,7 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Basic SEO -->
     <title>{% block title %}My Professional Site{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}Professional resume and blog of a software engineer.{% endblock %}">
+    <meta name="keywords" content="{% block meta_keywords %}resume, blog, software engineer, portfolio{% endblock %}">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.url }}">
+    <meta property="og:title" content="{% block og_title %}{{ self.title() }}{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}{{ self.meta_description() }}{% endblock %}">
+    <meta property="og:image" content="{% block og_image %}https://yourdomain.com/static/img/og-default.jpg{% endblock %}">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="{% block twitter_title %}{{ self.title() }}{% endblock %}">
+    <meta property="twitter:description" content="{% block twitter_description %}{{ self.meta_description() }}{% endblock %}">
+    <meta property="twitter:image" content="{% block twitter_image %}{{ self.og_image() }}{% endblock %}">
     
     <!-- Tailwind CSS CDN for development speed, but including the local compiled CSS as per PLAN.md -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -19,16 +36,16 @@
 <body class="bg-slate-50 text-slate-900 font-sans leading-normal flex flex-col min-h-screen">
 
     <!-- Navigation Bar -->
-    <nav class="bg-white border-b border-slate-200 py-4">
+    <nav class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200 py-4 transition-all">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-            <a href="{{ url_for('home') }}" class="text-xl font-bold tracking-tight text-slate-900 hover:text-blue-600 transition-colors">
+            <a href="{{ url_for('home') }}" class="text-xl font-bold tracking-tight text-slate-900 hover:text-blue-600 transition-colors duration-300 ease-in-out">
                 JAUN<span class="text-blue-600">MIA</span>
             </a>
             
-            <!-- Mobile Menu Toggle (Simplified for Phase 1) -->
-            <div class="flex space-x-6 items-center">
-                <a href="{{ url_for('home') }}" class="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors">Резюме</a>
-                <a href="{{ url_for('blog.index') }}" class="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors">Блог</a>
+            <!-- Navigation Links -->
+            <div class="flex space-x-1 items-center">
+                <a href="{{ url_for('home') }}" class="px-3 py-2 rounded-md text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-slate-100 transition-all duration-200">Резюме</a>
+                <a href="{{ url_for('blog.index') }}" class="px-3 py-2 rounded-md text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-slate-100 transition-all duration-200">Блог</a>
             </div>
         </div>
     </nav>

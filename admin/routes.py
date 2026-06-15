@@ -1,4 +1,4 @@
-import re
+from functools import wraps
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 from extensions import db
 from blog.models import BlogPost
@@ -6,33 +6,19 @@ from blog.models import BlogPost
 admin_bp = Blueprint('admin', __name__, url_prefix='/admin')
 
 # --- Simple Auth Configuration ---
-# In a real app, these would be in environment variables
 ADMIN_USERNAME = "admin"
 ADMIN_PASSWORD = "password123" 
 
-def is_logged_in():
-    return session.get('logged_in')
-
-@admin_bp.before_request
-def restrict_to_admin():
+def login_required(f):
     """
-    Middleware to protect all admin routes.
+    Custom decorator to restrict access to admin routes.
     """
-    if not is_logged_in():
-        # Allow access to the login page itself
-        if request.endpoint != 'admin.login':
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not session.get('logged_in'):
             return redirect(url_for('admin.login'))
-
-def generate_slug(text):
-    """
-    Converts a title into a URL-friendly slug.
-    Example: "Hello World!" -> "hello-world"
-    """
-    text = text.lower().strip()
-    text = re.sub(r'[^\w\s-]', '', text)
-    text = re.sub(r'[\s_-]+', '-', text)
-    text = re.sub(r'^-+|-+$', '', text)
-    return text
+        return f(*args, **kwargs)
+    return decorated_function
 
 @admin_bp.route('/login', methods=['GET', 'POST'])
 def login():
@@ -59,6 +45,7 @@ def logout():
     return redirect(url_for('admin.login'))
 
 @admin_bp.route('/')
+@login_required
 def dashboard():
     """
     Admin Dashboard.
@@ -68,6 +55,7 @@ def dashboard():
     return render_template('admin/dashboard.html', posts=posts)
 
 @admin_bp.route('/new', methods=['GET', 'POST'])
+@login_required
 def create_post():
     """
     Create a new blog post.
@@ -82,7 +70,6 @@ def create_post():
         # Check if slug already exists
         existing = BlogPost.query.filter_by(slug=slug).first()
         if existing:
-            # Append a random number or timestamp if slug is taken
             import time
             slug = f"{slug}-{int(time.time())}"
 
@@ -103,3 +90,14 @@ def create_post():
             flash(f'Error saving post: {str(e)}', 'danger')
 
     return render_template('admin/create_post.html')
+
+def generate_slug(text):
+    """
+    Converts a title into a URL-friendly slug.
+    """
+    import re
+    text = text.lower().strip()
+    text = re.sub(r'[^\w\s-]', '', text)
+    text = re.sub(r'[\s_-]+', '-', text)
+    text = re.sub(r'^-+|-+$', '', text)
+    return text
