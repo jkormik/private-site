@@ -89,7 +89,22 @@ def create_post():
             db.session.rollback()
             flash(f'Error saving post: {str(e)}', 'danger')
 
-    return render_template('admin/create_post.html')
+@admin_bp.route('/delete/<int:post_id>', methods=['POST', 'GET'])
+@login_required
+def delete_post(post_id):
+    """
+    Deletes a blog post by its ID.
+    """
+    post = BlogPost.query.get_or_404(post_id)
+    try:
+        db.session.delete(post)
+        db.session.commit()
+        flash(f'Post "{post.title}" has been deleted.', 'success')
+    except Exception as e:
+        db.session.rollback()
+        flash(f'Error deleting post: {str(e)}', 'danger')
+    
+    return redirect(url_for('admin.dashboard'))
 
 def generate_slug(text):
     """
