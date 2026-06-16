@@ -89,6 +89,45 @@ def create_post():
             db.session.rollback()
             flash(f'Error saving post: {str(e)}', 'danger')
 
+    return render_template('admin/create_post.html')
+
+@admin_bp.route('/edit/<int:post_id>', methods=['GET', 'POST'])
+@login_required
+def edit_post(post_id):
+    """
+    Edit an existing blog post.
+    """
+    post = BlogPost.query.get_or_404(post_id)
+    
+    if request.method == 'POST':
+        title = request.form.get('title')
+        content = request.form.get('content')
+        is_published = 'is_published' in request.form
+        
+        # Regenerate slug if title changed
+        new_slug = generate_slug(title)
+        if new_slug != post.slug:
+            # Check for collision
+            existing = BlogPost.query.filter_by(slug=new_slug).first()
+            if existing:
+                import time
+                new_slug = f"{new_slug}-{int(time.time())}"
+            post.slug = new_slug
+            
+        post.title = title
+        post.content = content
+        post.is_published = is_published
+        
+        try:
+            db.session.commit()
+            flash('Post updated successfully!', 'success')
+            return redirect(url_for('admin.dashboard'))
+        except Exception as e:
+            db.session.rollback()
+            flash(f'Error updating post: {str(e)}', 'danger')
+            
+    return render_template('admin/create_post.html', post=post, is_edit=True)
+
 @admin_bp.route('/delete/<int:post_id>', methods=['POST', 'GET'])
 @login_required
 def delete_post(post_id):
