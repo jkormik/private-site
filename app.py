@@ -35,14 +35,14 @@ app.register_blueprint(admin_bp)
 # --- Resume Data ---
 RESUME_DATA = {
     "personal_info": {
-        "name": "Андрей Сычёв",
+        "name": "Йердан Счёвы",
         "title": "Full-Stack python-разработчик",
-        "email": "joshuakormik@yandex.ru",
-        "phone": "+7 (962) 991-67-00",
+        "email": "999@bip.ru",
+        "phone": "+7 (999) 999-99-99",
         "location": "Москва",
         "links": [
-            {"name": "Telegram", "url": "https://t.me/Jaunmia", "icon": "telegram"},
-            {"name": "GitHub", "url": "https://github.com/jkormik", "icon": "github"},
+            {"name": "Telegram", "url": "https://t.me/bip", "icon": "telegram"},
+            {"name": "GitHub", "url": "https://github.com/bip", "icon": "github"},
             {"name": "Portfolio", "url": "https://portfolio.example.com", "icon": "globe"},
         ]
     },
@@ -62,9 +62,10 @@ RESUME_DATA = {
             "role": "Специлист по хранения и обработке данных",
             "duration": "2017 - 2020",
             "description": [
-                "Developed a real-time analytics dashboard using Flask and WebSocket, used by 50+ corporate clients.",
-                "Implemented a comprehensive CI/CD pipeline using GitHub Actions and AWS, ensuring zero-downtime deployments.",
-                "Collaborated with UI/UX designers to implement a fully responsive interface using Tailwind CSS."
+                "Разработал комплекс автоматизированную систему конвейерной обработки видеоматериала. Система обеспечивала полный цикл работы: от загрузки сырого видео до создания готового к продаже каталога.",
+                "Реализовал модуль для медиа-обработки, интегрировав Python с FFmpeg для выполнения задач обрезки (trimming) и конвертации файлов в соответствии со стандартами стоков.",
+                "Создал механизм генерации структурированных метаданных (JSON), позволяя каталогизировать видеоконтент и управлять его атрибутами.",
+                "Спроектировал финальный ETL-процесс: преобразование JSON с описаниями в стандартизированные CSV-файлы, адаптированные под требования крупнейших стоков (Shutterstock, Pond5, Adobe Stock)."
             ]
         }
     ],
