@@ -3,15 +3,19 @@ from extensions import db
 from blog.routes import blog_bp
 from admin.routes import admin_bp
 import blog.models # Ensure models are registered with SQLAlchemy
+from dotenv import load_dotenv
+import os
 
 
+# Search for a .env file and load it into application environment variables
+load_dotenv()
 
 # Initialize Flask Application
 app = Flask(__name__)
 
 # --- Configuration ---
 # Using SQLite for local development as per PLAN.md
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("SQLALCHEMY_DATABASE_URI")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'dev-secret-key-change-this-in-production'
 

@@ -2,12 +2,18 @@ from functools import wraps
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 from extensions import db
 from blog.models import BlogPost
+from dotenv import load_dotenv
+import os
+
+
+# Search for a .env file and load it into application environment variables
+load_dotenv()
 
 admin_bp = Blueprint('admin', __name__, url_prefix='/admin')
 
 # --- Simple Auth Configuration ---
-ADMIN_USERNAME = "admin"
-ADMIN_PASSWORD = "password123" 
+ADMIN_USERNAME = os.getenv("ADMIN_USERNAME")
+ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD")
 
 def login_required(f):
     """
