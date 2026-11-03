@@ -1,7 +1,8 @@
 from functools import wraps
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
-from extensions import db
+from extensions import db, bcrypt
 from blog.models import BlogPost
+from admin.forms import BlogPostForm, LoginForm
 from dotenv import load_dotenv
 import os
 
@@ -13,7 +14,7 @@ admin_bp = Blueprint('admin', __name__, url_prefix='/admin')
 
 # --- Simple Auth Configuration ---
 ADMIN_USERNAME = os.getenv("ADMIN_USERNAME")
-ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD")
+ADMIN_PASSWORD_HASH = os.getenv("ADMIN_PASSWORD") # Now expects a hashed password
 
 def login_required(f):
     """
@@ -31,18 +32,21 @@ def login():
     """
     Admin Login Page.
     """
-    if request.method == 'POST':
-        username = request.form.get('username')
-        password = request.form.get('password')
+    form = LoginForm()
+    
+    if form.validate_on_submit():
+        username = form.username.data
+        password = form.password.data
         
-        if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
+        # Verify password using bcrypt instance from extensions
+        if username == ADMIN_USERNAME and bcrypt.check_password_hash(ADMIN_PASSWORD_HASH, password):
             session['logged_in'] = True
             flash('Successfully logged in!', 'success')
             return redirect(url_for('admin.dashboard'))
         else:
             flash('Invalid credentials.', 'danger')
             
-    return render_template('admin/login.html')
+    return render_template('admin/login.html', form=form)
 
 @admin_bp.route('/logout')
 def logout():
@@ -64,20 +68,23 @@ def dashboard():
 @login_required
 def create_post():
     """
-    Create a new blog post.
+    Create a new blog post using a validated form.
     """
-    if request.method == 'POST':
-        title = request.form.get('title')
-        content = request.form.get('content')
-        is_published = 'is_published' in request.form
+    form = BlogPostForm()
+    
+    if form.validate_on_submit():
+        title = form.title.data
+        content = form.content.data
+        is_published = form.is_published.data
         
         slug = generate_slug(title)
         
-        # Check if slug already exists
-        existing = BlogPost.query.filter_by(slug=slug).first()
-        if existing:
-            import time
-            slug = f"{slug}-{int(time.time())}"
+        # Better collision handling: incremental numbering
+        counter = 1
+        original_slug = slug
+        while BlogPost.query.filter_by(slug=slug).first():
+            slug = f"{original_slug}-{counter}"
+            counter += 1
 
         new_post = BlogPost(
             title=title, 
@@ -91,17 +98,17 @@ def create_post():
             db.session.commit()
             flash('Post created successfully!', 'success')
             return redirect(url_for('admin.dashboard'))
-        except Exception as e:
+        except Exception:
             db.session.rollback()
-            flash(f'Error saving post: {str(e)}', 'danger')
+            flash('A system error occurred while saving the post.', 'danger')
 
-    return render_template('admin/create_post.html', post=None, is_edit=False)
+    return render_template('admin/create_post.html', form=form, post=None, is_edit=False)
 
 @admin_bp.route('/edit/<int:post_id>', methods=['GET', 'POST'])
 @login_required
 def edit_post(post_id):
     """
-    Edit an existing blog post.
+    Edit an existing blog post using a validated form.
     """
     try:
         post = BlogPost.query.get_or_404(post_id)
@@ -109,19 +116,22 @@ def edit_post(post_id):
         flash(f"Could not find post with ID {post_id}", "danger")
         return redirect(url_for('admin.dashboard'))
     
-    if request.method == 'POST':
-        title = request.form.get('title')
-        content = request.form.get('content')
-        is_published = 'is_published' in request.form
+    form = BlogPostForm(obj=post) # Pre-populate form with post data
+    
+    if form.validate_on_submit():
+        title = form.title.data
+        content = form.content.data
+        is_published = form.is_published.data
         
-        # Regenerate slug if title changed
-        new_slug = generate_slug(title)
+        # Slug logic: only change if title changed or manual slug provided
+        new_slug = form.slug.data if form.slug.data else generate_slug(title)
+        
         if new_slug != post.slug:
-            # Check for collision
-            existing = BlogPost.query.filter(BlogPost.slug == new_slug, BlogPost.id != post.id).first()
-            if existing:
-                import time
-                new_slug = f"{new_slug}-{int(time.time())}"
+            counter = 1
+            original_slug = new_slug
+            while BlogPost.query.filter(BlogPost.slug == new_slug, BlogPost.id != post.id).first():
+                new_slug = f"{original_slug}-{counter}"
+                counter += 1
             post.slug = new_slug
             
         post.title = title
@@ -132,11 +142,11 @@ def edit_post(post_id):
             db.session.commit()
             flash('Post updated successfully!', 'success')
             return redirect(url_for('admin.dashboard'))
-        except Exception as e:
+        except Exception:
             db.session.rollback()
-            flash(f'Error updating post: {str(e)}', 'danger')
+            flash('A system error occurred while updating the post.', 'danger')
             
-    return render_template('admin/create_post.html', post=post, is_edit=True)
+    return render_template('admin/create_post.html', form=form, post=post, is_edit=True)
 
 @admin_bp.route('/delete/<int:post_id>', methods=['POST', 'GET'])
 @login_required
@@ -149,9 +159,9 @@ def delete_post(post_id):
         db.session.delete(post)
         db.session.commit()
         flash(f'Post "{post.title}" has been deleted.', 'success')
-    except Exception as e:
+    except Exception:
         db.session.rollback()
-        flash(f'Error deleting post: {str(e)}', 'danger')
+        flash('A system error occurred while deleting the post.', 'danger')
     
     return redirect(url_for('admin.dashboard'))
 

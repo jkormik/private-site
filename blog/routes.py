@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, abort
 from extensions import db
 from blog.models import BlogPost
 import markdown
+import bleach
 
 # Create the blog blueprint for modular routing
 blog_bp = Blueprint('blog', __name__)
@@ -24,12 +25,27 @@ def index():
 def post(slug):
     """
     Single Post View
-    Fetches a single blog post by its unique slug and renders its markdown content.
+    Fetches a single blog post by its unique slug and renders its sanitized markdown content.
     """
     post = BlogPost.query.filter_by(slug=slug, is_published=True).first_or_404()
     
-    # Convert markdown content to HTML
-    # extensions=['fenced_code', 'tables'] adds support for code blocks and tables
-    content_html = markdown.markdown(post.content, extensions=['fenced_code', 'tables'])
+    # 1. Convert markdown content to HTML
+    raw_html = markdown.markdown(post.content, extensions=['fenced_code', 'tables'])
+    
+    # 2. Sanitize HTML to prevent Stored XSS
+    # We allow a safe set of tags and attributes
+    allowed_tags = [
+        'a', 'abbr', 'acronym', 'b', 'blockquote', 'code', 'em', 'i', 'strong', 
+        'ul', 'ol', 'li', 'p', 'br', 'span', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 
+        'hr', 'pre', 'table', 'thead', 'tbody', 'tr', 'th', 'td', 'div'
+    ]
+    allowed_attrs = {
+        'a': ['href', 'title', 'target'],
+        'abbr': ['title'],
+        'span': ['class'],
+        'div': ['class'],
+    }
+    
+    content_html = bleach.clean(raw_html, tags=allowed_tags, attributes=allowed_attrs)
     
     return render_template('blog/post.html', post=post, content_html=content_html)

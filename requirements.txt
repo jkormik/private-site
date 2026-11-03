@@ -5,3 +5,6 @@ Flask-WTF
 wtforms
 dotenv
 markdown
+Flask-Migrate
+flask-bcrypt
+bleach
