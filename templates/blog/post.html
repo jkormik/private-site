@@ -25,8 +25,8 @@
 
     <!-- Post Content -->
     <div class="prose prose-slate max-w-none">
-        <div class="bg-white p-8 md:p-12 rounded-3xl border border-slate-200 shadow-sm text-slate-700 leading-relaxed text-lg whitespace-pre-wrap">
-            {{ post.content }}
+        <div class="bg-white p-8 md:p-12 rounded-3xl border border-slate-200 shadow-sm text-slate-700 leading-relaxed text-lg markdown-content">
+            {{ content_html | safe }}
         </div>
     </div>
 

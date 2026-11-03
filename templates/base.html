@@ -11,16 +11,16 @@
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="{{ request.url }}">
-    <meta property="og:title" content="{% block og_title %}{{ self.title() }}{% endblock %}">
-    <meta property="og:description" content="{% block og_description %}{{ self.meta_description() }}{% endblock %}">
+    <meta property="og:url" content="https://yourdomain.com">
+    <meta property="og:title" content="{% block og_title %}My Professional Site{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Professional resume and blog of a software engineer.{% endblock %}">
     <meta property="og:image" content="{% block og_image %}https://yourdomain.com/static/img/og-default.jpg{% endblock %}">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:title" content="{% block twitter_title %}{{ self.title() }}{% endblock %}">
-    <meta property="twitter:description" content="{% block twitter_description %}{{ self.meta_description() }}{% endblock %}">
-    <meta property="twitter:image" content="{% block twitter_image %}{{ self.og_image() }}{% endblock %}">
+    <meta property="twitter:title" content="{% block twitter_title %}My Professional Site{% endblock %}">
+    <meta property="twitter:description" content="{% block twitter_description %}Professional resume and blog of a software engineer.{% endblock %}">
+    <meta property="twitter:image" content="{% block twitter_image %}https://yourdomain.com/static/img/og-default.jpg{% endblock %}">
     
     <!-- Tailwind CSS CDN for development speed, but including the local compiled CSS as per PLAN.md -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -62,7 +62,7 @@
     <!-- Footer -->
     <footer class="bg-white border-t border-slate-200 py-8">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-slate-500 text-sm">
-            <p>&copy; {{ 2026 }} Professional Resume Site. Built with Flask & Tailwind CSS.</p>
+            <p>&copy; 2026 Professional Resume Site. Built with Flask & Tailwind CSS.</p>
         </div>
     </footer>
 

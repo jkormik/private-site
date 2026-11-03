@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, abort
 from extensions import db
 from blog.models import BlogPost
+import markdown
 
 # Create the blog blueprint for modular routing
 blog_bp = Blueprint('blog', __name__)
@@ -23,7 +24,12 @@ def index():
 def post(slug):
     """
     Single Post View
-    Fetches a single blog post by its unique slug.
+    Fetches a single blog post by its unique slug and renders its markdown content.
     """
     post = BlogPost.query.filter_by(slug=slug, is_published=True).first_or_404()
-    return render_template('blog/post.html', post=post)
+    
+    # Convert markdown content to HTML
+    # extensions=['fenced_code', 'tables'] adds support for code blocks and tables
+    content_html = markdown.markdown(post.content, extensions=['fenced_code', 'tables'])
+    
+    return render_template('blog/post.html', post=post, content_html=content_html)

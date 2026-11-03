@@ -95,7 +95,7 @@ def create_post():
             db.session.rollback()
             flash(f'Error saving post: {str(e)}', 'danger')
 
-    return render_template('admin/create_post.html')
+    return render_template('admin/create_post.html', post=None, is_edit=False)
 
 @admin_bp.route('/edit/<int:post_id>', methods=['GET', 'POST'])
 @login_required
@@ -103,7 +103,11 @@ def edit_post(post_id):
     """
     Edit an existing blog post.
     """
-    post = BlogPost.query.get_or_404(post_id)
+    try:
+        post = BlogPost.query.get_or_404(post_id)
+    except Exception as e:
+        flash(f"Could not find post with ID {post_id}", "danger")
+        return redirect(url_for('admin.dashboard'))
     
     if request.method == 'POST':
         title = request.form.get('title')
@@ -114,7 +118,7 @@ def edit_post(post_id):
         new_slug = generate_slug(title)
         if new_slug != post.slug:
             # Check for collision
-            existing = BlogPost.query.filter_by(slug=new_slug).first()
+            existing = BlogPost.query.filter(BlogPost.slug == new_slug, BlogPost.id != post.id).first()
             if existing:
                 import time
                 new_slug = f"{new_slug}-{int(time.time())}"

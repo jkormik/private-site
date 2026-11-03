@@ -4,3 +4,4 @@ flask-sqlalchemy
 Flask-WTF
 wtforms
 dotenv
+markdown
