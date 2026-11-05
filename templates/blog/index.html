@@ -25,7 +25,7 @@
             </h2>
             
             <p class="text-slate-600 leading-relaxed mb-6 line-clamp-3">
-                {{ post.content | truncate(160) }}
+                {{ post.content | markdown | striptags | truncate(160) }}
             </p>
             
             <a href="{{ url_for('blog.post', slug=post.slug) }}" class="text-sm font-bold text-slate-900 inline-flex items-center gap-1 group-hover:gap-2 transition-all">

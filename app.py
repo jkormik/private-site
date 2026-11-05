@@ -7,6 +7,7 @@ from admin.routes import admin_bp
 import blog.models # Ensure models are registered with SQLAlchemy
 from dotenv import load_dotenv
 import os
+import markdown
 from data import RESUME_DATA
 
 # Search for a .env file and load it into application environment variables
@@ -32,6 +33,9 @@ db.init_app(app)
 bcrypt.init_app(app)
 csrf = CSRFProtect(app)
 migrate = Migrate(app, db)
+
+# Render markdown to HTML in templates: {{ text | markdown | striptags }}
+app.jinja_env.filters['markdown'] = lambda text: markdown.markdown(text, extensions=['fenced_code', 'tables'])
 
 # --- Blueprints ---
 app.register_blueprint(blog_bp, url_prefix='/blog')
