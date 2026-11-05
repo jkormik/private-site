@@ -37,6 +37,10 @@ migrate = Migrate(app, db)
 app.register_blueprint(blog_bp, url_prefix='/blog')
 app.register_blueprint(admin_bp)
 
+# Create tables on first run so a fresh clone works (idempotent)
+with app.app_context():
+    db.create_all()
+
 # --- Routes ---
 @app.route('/')
 def home():

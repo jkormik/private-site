@@ -148,7 +148,7 @@ def edit_post(post_id):
             
     return render_template('admin/create_post.html', form=form, post=post, is_edit=True)
 
-@admin_bp.route('/delete/<int:post_id>', methods=['POST', 'GET'])
+@admin_bp.route('/delete/<int:post_id>', methods=['POST'])
 @login_required
 def delete_post(post_id):
     """
