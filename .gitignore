@@ -9,7 +9,11 @@ wheels/
 # Virtual environments
 .venv
 .env
+.pi
 
 # misc
 /AGENTS.md
 /PLAN.md
+/package.json
+/package-lock.json
+node_modules/
