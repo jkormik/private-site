@@ -1,19 +1,63 @@
-# Python-generated files
+# Byte-compiled / optimized / DLL files
 __pycache__/
-*.py[oc]
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
 build/
+develop-eggs/
 dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
 wheels/
-*.egg-info
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
 
-# Virtual environments
-.venv
+# PyInstaller
+#  Usually these are created when packaging a python application
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+
+# Capitalize on uv (since uv.lock and pyproject.toml are present)
+.venv/
+venv/
+ENV/
+env/
+
+# Flask instance folder (contains database and config)
+instance/
+
+# Environment variables
 .env
-.pi
+.venv
+.env.local
+.env.*.local
 
-# misc
-/AGENTS.md
-/PLAN.md
-/package.json
-/package-lock.json
-node_modules/
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
