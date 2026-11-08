@@ -16,7 +16,7 @@
         <div class="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-8">
             {% for post in posts %}
             <article class="group bg-white p-8 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all hover:-translate-y-1">
-                <div class="flex items-center gap-2 text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">
+                <div class="flex items-center gap-2 text-xs font-bold text-slate-400 tracking-wider mb-3">
                     <span>{{ post.date_posted | date_ru }}</span>
                     <span class="text-slate-200">•</span>
                     <span class="text-blue-600">{{ post.tag or 'Статья' }}</span>
