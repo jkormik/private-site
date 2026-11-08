@@ -75,6 +75,7 @@ def create_post():
     if form.validate_on_submit():
         title = form.title.data
         content = form.content.data
+        tag = form.tag.data
         is_published = form.is_published.data
         
         slug = generate_slug(title)
@@ -90,6 +91,7 @@ def create_post():
             title=title, 
             slug=slug, 
             content=content, 
+            tag=tag,
             is_published=is_published
         )
         
@@ -97,7 +99,7 @@ def create_post():
             db.session.add(new_post)
             db.session.commit()
             flash('Post created successfully!', 'success')
-            return redirect(url_for('admin.dashboard'))
+            return redirect(url_for('admin.edit_post', post_id=new_post.id))
         except Exception:
             db.session.rollback()
             flash('A system error occurred while saving the post.', 'danger')
@@ -121,6 +123,7 @@ def edit_post(post_id):
     if form.validate_on_submit():
         title = form.title.data
         content = form.content.data
+        tag = form.tag.data
         is_published = form.is_published.data
         
         # Slug logic: only change if title changed or manual slug provided
@@ -136,12 +139,13 @@ def edit_post(post_id):
             
         post.title = title
         post.content = content
+        post.tag = tag
         post.is_published = is_published
         
         try:
             db.session.commit()
             flash('Post updated successfully!', 'success')
-            return redirect(url_for('admin.dashboard'))
+            return redirect(url_for('admin.edit_post', post_id=post.id))
         except Exception:
             db.session.rollback()
             flash('A system error occurred while updating the post.', 'danger')

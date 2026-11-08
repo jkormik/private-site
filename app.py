@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 import os
 import markdown
 from data import RESUME_DATA
+from datetime import datetime
 
 # Search for a .env file and load it into application environment variables
 load_dotenv()
@@ -37,6 +38,29 @@ migrate = Migrate(app, db)
 # Render markdown to HTML in templates: {{ text | markdown | striptags }}
 app.jinja_env.filters['markdown'] = lambda text: markdown.markdown(text, extensions=['fenced_code', 'tables'])
 
+def format_date_ru(date):
+    if not date:
+        return ""
+    months = {
+        1: "Январь", 2: "Февраль", 3: "Март", 4: "Апрель",
+        5: "Май", 6: "Июнь", 7: "Июль", 8: "Август",
+        9: "Сентябрь", 10: "Октябрь", 11: "Ноябрь", 12: "Декабрь"
+    }
+    return f"{months[date.month]} {date.day}, {date.year}"
+
+app.jinja_env.filters['date_ru'] = format_date_ru
+
+def calculate_reading_time(text):
+    if not text:
+        return 0
+    # Средняя скорость чтения человека ~200 слов в минуту
+    words_per_minute = 200
+    word_count = len(text.split())
+    reading_time = max(1, round(word_count / words_per_minute))
+    return reading_time
+
+app.jinja_env.filters['reading_time'] = calculate_reading_time
+
 # --- Blueprints ---
 app.register_blueprint(blog_bp, url_prefix='/blog')
 app.register_blueprint(admin_bp)
@@ -56,4 +80,4 @@ def home():
 
 if __name__ == '__main__':
     # Use environment variable for debug mode to prevent accidental production exposure
-    app.run(debug=os.getenv("FLASK_DEBUG", "False").lower() == "true")
+    app.run(port=5001, debug=os.getenv("FLASK_DEBUG", "False").lower() == "true")

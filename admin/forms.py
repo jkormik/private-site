@@ -24,5 +24,6 @@ class BlogPostForm(FlaskForm):
         DataRequired(), 
         Length(min=10, message="Content is too short.")
     ])
+    tag = StringField('Тег (например: ИИ-Агенты)')
     is_published = BooleanField('Publish Immediately')
     submit = SubmitField('Save Post')

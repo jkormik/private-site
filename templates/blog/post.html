@@ -11,15 +11,15 @@
     <!-- Post Header -->
     <header class="mb-12 text-center">
         <div class="text-sm font-bold text-blue-600 uppercase tracking-widest mb-4">
-            Article
+            {{ post.tag or 'Статья' }}
         </div>
         <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight mb-6 leading-tight">
             {{ post.title }}
         </h1>
         <div class="flex justify-center items-center gap-3 text-slate-500 text-sm">
-            <span class="font-medium text-slate-900">{{ post.date_posted.strftime('%B %d, %Y') }}</span>
+            <span class="font-medium text-slate-900">{{ post.date_posted | date_ru }}</span>
             <span class="text-slate-300">•</span>
-            <span>5 min read</span>
+            <span>{{ post.content | reading_time }} минут</span>
         </div>
     </header>
 
@@ -33,10 +33,10 @@
     <!-- Footer Navigation -->
     <footer class="mt-16 pt-8 border-t border-slate-200 flex justify-between items-center">
         <a href="{{ url_for('blog.index') }}" class="text-sm font-bold text-slate-500 hover:text-blue-600 transition-colors flex items-center gap-1">
-            ← Back to Blog
+            ← Вернуться в блог
         </a>
         <div class="flex gap-4">
-            <button class="p-2 bg-slate-100 rounded-full text-slate-500 hover:text-blue-600 transition-colors" title="Share">
+            <button id="share-btn" class="p-2 bg-slate-100 rounded-full text-slate-500 hover:text-blue-600 transition-colors" title="Поделиться">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 0l3.578-3.578a1 1 0 011.414 0l3.578 3.578a1 1 0 010 1.414m0 0l-3.578 3.578a1 1 0 01-1.414 0l-3.578-3.578a1 1 0 010-1.414z" />
                 </svg>
@@ -45,4 +45,16 @@
     </footer>
 
 </article>
+
+<script>
+document.getElementById('share-btn').addEventListener('click', async () => {
+    try {
+        await navigator.clipboard.writeText(window.location.href);
+        alert('Ссылка на статью скопирована в буфер обмена!');
+    } catch (err) {
+        console.error('Ошибка при копировании: ', err);
+        alert('Не удалось скопировать ссылку.');
+    }
+});
+</script>
 {% endblock %}

@@ -14,6 +14,7 @@ class BlogPost(db.Model):
     date_posted = db.Column(db.DateTime, default=datetime.utcnow)
     content = db.Column(db.Text, nullable=False)
     is_published = db.Column(db.Boolean, default=False)
+    tag = db.Column(db.String(50), nullable=True)
 
     def __repr__(self):
         return f'<BlogPost {self.title}>'

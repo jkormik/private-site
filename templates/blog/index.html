@@ -7,37 +7,61 @@
 {% block content %}
 <div class="py-10">
     <div class="flex justify-between items-center mb-10">
-        <h1 class="text-4xl font-extrabold text-slate-900 tracking-tight">Blog</h1>
-        <span class="text-sm text-slate-500 font-medium">{{ posts|length }} Published Posts</span>
+        <h1 class="text-4xl font-extrabold text-slate-900 tracking-tight">Блог</h1>
+        <span class="text-sm text-slate-500 font-medium">{{ posts|length }} опубликованных статей</span>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {% for post in posts %}
-        <article class="group bg-white p-8 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all hover:-translate-y-1">
-            <div class="flex items-center gap-2 text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">
-                <span>{{ post.date_posted.strftime('%B %d, %Y') }}</span>
-                <span class="text-slate-200">•</span>
-                <span class="text-blue-600">Article</span>
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <!-- Main Blog Feed -->
+        <div class="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-8">
+            {% for post in posts %}
+            <article class="group bg-white p-8 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all hover:-translate-y-1">
+                <div class="flex items-center gap-2 text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">
+                    <span>{{ post.date_posted | date_ru }}</span>
+                    <span class="text-slate-200">•</span>
+                    <span class="text-blue-600">{{ post.tag or 'Статья' }}</span>
+                </div>
+                
+                <h2 class="text-2xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors">
+                    {{ post.title }}
+                </h2>
+                
+                <p class="text-slate-600 leading-relaxed mb-6 line-clamp-3">
+                    {{ post.content | markdown | striptags | truncate(160) }}
+                </p>
+                
+                <a href="{{ url_for('blog.post', slug=post.slug) }}" class="text-sm font-bold text-slate-900 inline-flex items-center gap-1 group-hover:gap-2 transition-all">
+                    К статье 
+                    <span class="text-blue-600">→</span>
+                </a>
+            </article>
+            {% else %}
+            <div class="col-span-full text-center py-20 bg-slate-50 rounded-3xl border-2 border-dashed border-slate-200">
+                <p class="text-slate-500 italic">Опубликованных статей пока нет. Следите за обновлениями!</p>
             </div>
-            
-            <h2 class="text-2xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors">
-                {{ post.title }}
-            </h2>
-            
-            <p class="text-slate-600 leading-relaxed mb-6 line-clamp-3">
-                {{ post.content | markdown | striptags | truncate(160) }}
-            </p>
-            
-            <a href="{{ url_for('blog.post', slug=post.slug) }}" class="text-sm font-bold text-slate-900 inline-flex items-center gap-1 group-hover:gap-2 transition-all">
-                Read More 
-                <span class="text-blue-600">→</span>
-            </a>
-        </article>
-        {% else %}
-        <div class="col-span-full text-center py-20 bg-slate-50 rounded-3xl border-2 border-dashed border-slate-200">
-            <p class="text-slate-500 italic">No published posts yet. Stay tuned for updates!</p>
+            {% endfor %}
         </div>
-        {% endfor %}
+
+        <!-- Sidebar: Tag Cloud -->
+        <div class="lg:col-span-1">
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm sticky top-10">
+                <h3 class="text-lg font-bold text-slate-900 mb-4">Теги</h3>
+                <div class="flex flex-wrap gap-2">
+                    {% if current_tag %}
+                    <a href="{{ url_for('blog.index') }}" class="px-3 py-1 text-xs font-medium bg-slate-200 text-slate-600 rounded-full hover:bg-slate-300 transition-colors">
+                        Все статьи ✕
+                    </a>
+                    {% endif %}
+                    
+                    {% for tag in tags %}
+                    <a href="{{ url_for('blog.index', tag=tag) }}" 
+                       class="px-3 py-1 text-xs font-medium rounded-full transition-colors {{ 'bg-blue-600 text-white' if tag == current_tag else 'bg-slate-100 text-slate-600 hover:bg-blue-100 hover:text-blue-600' }}">
+                        {{ tag }}
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

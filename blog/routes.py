@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, abort
+from flask import Blueprint, render_template, abort, request
 from extensions import db
 from blog.models import BlogPost
 import markdown
@@ -12,11 +12,21 @@ def index():
     """
     Blog Index Page
     Fetches all published blog posts and displays them.
+    Supports filtering by tag.
     """
+    tag_filter = request.args.get('tag')
     try:
-        # Query posts that are marked as published, ordered by date (newest first)
-        posts = BlogPost.query.filter_by(is_published=True).order_by(BlogPost.date_posted.desc()).all()
-        return render_template('blog/index.html', posts=posts)
+        query = BlogPost.query.filter_by(is_published=True)
+        if tag_filter:
+            query = query.filter_by(tag=tag_filter)
+        
+        posts = query.order_by(BlogPost.date_posted.desc()).all()
+        
+        # Get all unique tags for the tag cloud
+        all_tags = db.session.query(BlogPost.tag).filter(BlogPost.tag.isnot(None)).distinct().all()
+        tags = [t[0] for t in all_tags]
+        
+        return render_template('blog/index.html', posts=posts, tags=tags, current_tag=tag_filter)
     except Exception as e:
         # Log error here in a real app
         abort(500)
