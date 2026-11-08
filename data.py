@@ -1,14 +1,14 @@
 RESUME_DATA = {
     "personal_info": {
-        "name": "Йердан Счёвы",
+        "name": "Андрей Сычёв",
         "title": "Full-Stack python-разработчик",
-        "email": "999@bip.ru",
-        "phone": "+7 (999) 999-99-99",
+        "email": "???@????.??",
+        "phone": "+? (???) ???-??-??",
         "location": "Москва",
         "links": [
-            {"name": "Telegram", "url": "https://t.me/bip", "icon": "telegram"},
-            {"name": "GitHub", "url": "https://github.com/bip", "icon": "github"},
-            {"name": "Portfolio", "url": "https://portfolio.example.com", "icon": "globe"},
+            {"name": "Telegram", "url": "https://t.me/Jaunmia", "icon": "telegram"},
+            {"name": "GitHub", "url": "https://github.com/jkormik", "icon": "github"},
+            {"name": "Portfolio", "url": "https:/github.com/jkormik", "icon": "globe"},
         ]
     },
     "summary": "Разработчик с более чем 4-летним опытом построения масштабируемых веб-приложений. Знаток в области Python, Flask, Django, Selenium, с подтвержденным опытом ускорения у улучшения производительности систем.",
