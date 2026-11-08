@@ -6,11 +6,6 @@
 
 {% block content %}
 <div class="py-10">
-    <div class="flex justify-between items-center mb-10">
-        <h1 class="text-4xl font-extrabold text-slate-900 tracking-tight">Блог</h1>
-        <span class="text-sm text-slate-500 font-medium">{{ posts|length }} опубликованных статей</span>
-    </div>
-
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
         <!-- Main Blog Feed -->
         <div class="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-8 order-2 lg:order-1">
@@ -44,15 +39,7 @@
 
         <!-- Sidebar: Tag Cloud -->
         <div class="lg:col-span-1 order-1 lg:order-2">
-            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm sticky top-10">
-                <h3 class="text-lg font-bold text-slate-900 mb-4">Теги</h3>
-                <div class="flex flex-wrap gap-2" id="tag-cloud">
-                    {% if selected_tags %}
-                    <a href="{{ url_for('blog.index') }}" class="px-3 py-1 text-xs font-medium bg-slate-200 text-slate-600 rounded-full hover:bg-slate-300 transition-colors">
-                        Все статьи ✕
-                    </a>
-                    {% endif %}
-                    
+            <div class="flex flex-wrap gap-2 sticky top-10" id="tag-cloud">
                     {% for tag in tags %}
                     <button 
                        onclick="toggleTag('{{ tag }}')"
@@ -60,8 +47,13 @@
                         {{ tag }}
                     </button>
                     {% endfor %}
+
+                    {% if selected_tags %}
+                    <a href="{{ url_for('blog.index') }}" class="px-3 py-1 text-xs font-medium bg-slate-200 text-slate-600 rounded-full hover:bg-slate-300 transition-colors">
+                        Все статьи ✕
+                    </a>
+                    {% endif %}
                 </div>
-            </div>
         </div>
     </div>
 </div>
