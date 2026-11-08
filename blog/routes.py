@@ -12,13 +12,16 @@ def index():
     """
     Blog Index Page
     Fetches all published blog posts and displays them.
-    Supports filtering by tag.
+    Supports filtering by multiple tags.
     """
-    tag_filter = request.args.get('tag')
+    tags_param = request.args.get('tags')
+    selected_tags = tags_param.split(',') if tags_param else []
+    
     try:
         query = BlogPost.query.filter_by(is_published=True)
-        if tag_filter:
-            query = query.filter_by(tag=tag_filter)
+        if selected_tags:
+            # Filter posts that have any of the selected tags (OR logic)
+            query = query.filter(BlogPost.tag.in_(selected_tags))
         
         posts = query.order_by(BlogPost.date_posted.desc()).all()
         
@@ -26,7 +29,7 @@ def index():
         all_tags = db.session.query(BlogPost.tag).filter(BlogPost.tag.isnot(None)).distinct().all()
         tags = [t[0] for t in all_tags]
         
-        return render_template('blog/index.html', posts=posts, tags=tags, current_tag=tag_filter)
+        return render_template('blog/index.html', posts=posts, tags=tags, selected_tags=selected_tags)
     except Exception as e:
         # Log error here in a real app
         abort(500)

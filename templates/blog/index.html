@@ -46,22 +46,47 @@
         <div class="lg:col-span-1">
             <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm sticky top-10">
                 <h3 class="text-lg font-bold text-slate-900 mb-4">Теги</h3>
-                <div class="flex flex-wrap gap-2">
-                    {% if current_tag %}
+                <div class="flex flex-wrap gap-2" id="tag-cloud">
+                    {% if selected_tags %}
                     <a href="{{ url_for('blog.index') }}" class="px-3 py-1 text-xs font-medium bg-slate-200 text-slate-600 rounded-full hover:bg-slate-300 transition-colors">
                         Все статьи ✕
                     </a>
                     {% endif %}
                     
                     {% for tag in tags %}
-                    <a href="{{ url_for('blog.index', tag=tag) }}" 
-                       class="px-3 py-1 text-xs font-medium rounded-full transition-colors {{ 'bg-blue-600 text-white' if tag == current_tag else 'bg-slate-100 text-slate-600 hover:bg-blue-100 hover:text-blue-600' }}">
+                    <button 
+                       onclick="toggleTag('{{ tag }}')"
+                       class="px-3 py-1 text-xs font-medium rounded-full transition-colors {{ 'bg-blue-600 text-white' if tag in selected_tags else 'bg-slate-100 text-slate-600 hover:bg-blue-100 hover:text-blue-600' }}">
                         {{ tag }}
-                    </a>
+                    </button>
                     {% endfor %}
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+function toggleTag(tag) {
+    const urlParams = new URLSearchParams(window.location.search);
+    let tags = urlParams.get('tags');
+    let tagsList = tags ? tags.split(',') : [];
+
+    if (tagsList.includes(tag)) {
+        // Remove tag
+        tagsList = tagsList.filter(t => t !== tag);
+    } else {
+        // Add tag
+        tagsList.push(tag);
+    }
+
+    if (tagsList.length > 0) {
+        urlParams.set('tags', tagsList.join(','));
+    } else {
+        urlParams.delete('tags');
+    }
+
+    window.location.href = window.location.pathname + '?' + urlParams.toString();
+}
+</script>
 {% endblock %}
