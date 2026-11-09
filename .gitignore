@@ -14,6 +14,8 @@ dist/
 downloads/
 eggs/
 .eggs/
+.pi/
+node_modules/
 lib/
 lib64/
 parts/
@@ -25,6 +27,8 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+package.json
+package-lock.json
 
 # PyInstaller
 #  Usually these are created when packaging a python application
