@@ -2,15 +2,24 @@ from functools import wraps
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 from extensions import db, bcrypt
 from blog.models import BlogPost
-from admin.forms import BlogPostForm, LoginForm
+from admin.forms import BlogPostForm, LoginForm, MediaUploadForm
 from dotenv import load_dotenv
 import os
+from werkzeug.utils import secure_filename
 
 
 # Search for a .env file and load it into application environment variables
 load_dotenv()
 
 admin_bp = Blueprint('admin', __name__, url_prefix='/admin')
+
+# --- Media Upload Configuration ---
+UPLOAD_FOLDER = 'static/uploads'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp', 'svg'}
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 # --- Simple Auth Configuration ---
 ADMIN_USERNAME = os.getenv("ADMIN_USERNAME")
@@ -168,6 +177,40 @@ def delete_post(post_id):
         flash('A system error occurred while deleting the post.', 'danger')
     
     return redirect(url_for('admin.dashboard'))
+
+@admin_bp.route('/media', methods=['GET', 'POST'])
+@login_required
+def media_gallery():
+    """
+    Media Gallery.
+    Lists all uploaded files.
+    """
+    files = []
+    if os.path.exists(UPLOAD_FOLDER):
+        files = os.listdir(UPLOAD_FOLDER)
+    
+    return render_template('admin/media_gallery.html', files=files)
+
+@admin_bp.route('/media/upload', methods=['GET', 'POST'])
+@login_required
+def upload_media():
+    """
+    Upload Media Page.
+    """
+    form = MediaUploadForm()
+    if form.validate_on_submit():
+        file = form.file.data
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            # Prevent overwriting files with the same name by adding timestamp if needed, 
+            # but for now we keep it simple.
+            file.save(os.path.join(UPLOAD_FOLDER, filename))
+            flash(f'File {filename} uploaded successfully!', 'success')
+            return redirect(url_for('admin.media_gallery'))
+        else:
+            flash('Invalid file type.', 'danger')
+            
+    return render_template('admin/upload_media.html', form=form)
 
 def generate_slug(text):
     """

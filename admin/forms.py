@@ -1,4 +1,5 @@
 from flask_wtf import FlaskForm
+from flask_wtf.file import FileField, FileAllowed
 from wtforms import StringField, TextAreaField, BooleanField, SubmitField, PasswordField
 from wtforms.validators import DataRequired, Length
 
@@ -27,3 +28,13 @@ class BlogPostForm(FlaskForm):
     tag = StringField('Тег (например: ИИ-Агенты)')
     is_published = BooleanField('Publish Immediately')
     submit = SubmitField('Save Post')
+
+class MediaUploadForm(FlaskForm):
+    """
+    Form for uploading media files.
+    """
+    file = FileField('Upload File', validators=[
+        DataRequired()
+    ])
+    submit = SubmitField('Upload')
+

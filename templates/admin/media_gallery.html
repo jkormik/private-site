@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Media Gallery - Admin{% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto">
+    <div class="flex justify-between items-center mb-8">
+        <h1 class="text-3xl font-bold text-slate-900">Media Gallery</h1>
+        <a href="{{ url_for('admin.upload_media') }}" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition-colors">
+            + Upload New File
+        </a>
+    </div>
+
+    {% if files %}
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+        {% for file in files %}
+        <div class="group relative bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all">
+            <div class="aspect-square overflow-hidden bg-slate-100 flex items-center justify-center">
+                {% if file.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.webp', '.svg')) %}
+                <img src="{{ url_for('static', filename='uploads/' + file) }}" alt="{{ file }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                {% else %}
+                <span class="text-3xl">📄</span>
+                {% endif %}
+            </div>
+            
+            <div class="p-3">
+                <p class="text-xs font-medium text-slate-700 truncate" title="{{ file }}">{{ file }}</p>
+                <div class="mt-2 flex items-center justify-between">
+                    <button onclick="copyToClipboard('{{ url_for('static', filename='uploads/' + file) }}')" class="text-[10px] font-bold text-blue-600 hover:text-blue-800 uppercase tracking-wider">
+                        Copy URL
+                    </button>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="text-center py-20 bg-white rounded-xl border border-slate-200 shadow-sm">
+        <span class="text-5xl block mb-4">🖼️</span>
+        <p class="text-slate-500 text-lg">No media files uploaded yet.</p>
+        <a href="{{ url_for('admin.upload_media') }}" class="mt-4 inline-block text-blue-600 font-medium hover:underline">Upload your first file</a>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text).then(() => {
+            alert('URL copied to clipboard!');
+        }).catch(err => {
+            console.error('Error copying to clipboard:', err);
+        });
+    }
+</script>
+{% endblock %}
