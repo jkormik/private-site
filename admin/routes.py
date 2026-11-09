@@ -212,6 +212,27 @@ def upload_media():
             
     return render_template('admin/upload_media.html', form=form)
 
+@admin_bp.route('/media/delete/<string:filename>', methods=['POST'])
+@login_required
+def delete_media(filename):
+    """
+    Delete a media file.
+    """
+    # Sanitize filename to prevent directory traversal
+    filename = secure_filename(filename)
+    file_path = os.path.join(UPLOAD_FOLDER, filename)
+    
+    try:
+        if os.path.exists(file_path):
+            os.remove(file_path)
+            flash(f'File {filename} deleted successfully!', 'success')
+        else:
+            flash('File not found.', 'danger')
+    except Exception as e:
+        flash(f'An error occurred while deleting the file: {str(e)}', 'danger')
+        
+    return redirect(url_for('admin.media_gallery'))
+
 def generate_slug(text):
     """
     Converts a title into a URL-friendly slug.
