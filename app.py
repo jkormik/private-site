@@ -70,13 +70,22 @@ with app.app_context():
     db.create_all()
 
 # --- Routes ---
+@app.route('/resume/')
+def resume():
+    """
+    Resume page
+    Renders the resume template with professional data.
+    """
+    return render_template('resume.html', data=RESUME_DATA)
+
 @app.route('/')
 def home():
     """
     Homepage
-    Renders the resume template with professional data.
+    Redirects to the blog index.
     """
-    return render_template('resume.html', data=RESUME_DATA)
+    from flask import redirect, url_for
+    return redirect(url_for('blog.index'))
 
 if __name__ == '__main__':
     # Use environment variable for debug mode to prevent accidental production exposure
