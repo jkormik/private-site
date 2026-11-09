@@ -50,13 +50,14 @@ def post(slug):
     allowed_tags = [
         'a', 'abbr', 'acronym', 'b', 'blockquote', 'code', 'em', 'i', 'strong', 
         'ul', 'ol', 'li', 'p', 'br', 'span', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 
-        'hr', 'pre', 'table', 'thead', 'tbody', 'tr', 'th', 'td', 'div'
+        'hr', 'pre', 'table', 'thead', 'tbody', 'tr', 'th', 'td', 'div', 'img'
     ]
     allowed_attrs = {
         'a': ['href', 'title', 'target'],
         'abbr': ['title'],
         'span': ['class'],
         'div': ['class'],
+        'img': ['src', 'alt', 'title', 'width', 'height'],
     }
     
     content_html = bleach.clean(raw_html, tags=allowed_tags, attributes=allowed_attrs)
