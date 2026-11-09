@@ -4,11 +4,13 @@
 
 {% block content %}
 <div class="max-w-2xl mx-auto">
-    <div class="flex items-center gap-4 mb-8">
-        <a href="{{ url_for('admin.media_gallery') }}" class="text-slate-500 hover:text-blue-600 transition-colors">
-            ← Back to Gallery
-        </a>
+    <div class="flex justify-between items-center mb-8">
         <h1 class="text-3xl font-bold text-slate-900">Upload Media</h1>
+        <div class="flex gap-3">
+            <a href="{{ url_for('admin.media_gallery') }}" class="bg-slate-200 text-slate-700 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-slate-300 transition-colors">
+                ← Back to Gallery
+            </a>
+        </div>
     </div>
 
     <div class="bg-white p-8 rounded-xl border border-slate-200 shadow-sm">
