@@ -19,7 +19,7 @@
             {% with messages = get_flashed_messages(with_categories=true) %}
               {% if messages %}
                 {% for category, message in messages %}
-                  <div class="mb-6 p-4 rounded-lg text-sm font-medium {% if category == 'danger' %}bg-red-100 text-red-700{% else %}bg-green-100 text-green-700{% endif %}">
+                  <div class="admin-alert mb-6 p-4 rounded-lg text-sm font-medium opacity-75 {% if category == 'danger' %}bg-red-100 text-red-700{% else %}bg-green-100 text-green-700{% endif %}">
                     {{ message }}
                   </div>
                 {% endfor %}

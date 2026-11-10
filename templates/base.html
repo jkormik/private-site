@@ -44,5 +44,20 @@
         </div>
     </main>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const alerts = document.querySelectorAll('.admin-alert');
+            alerts.forEach(alert => {
+                setTimeout(() => {
+                    alert.style.transition = 'opacity 1s ease-out';
+                    alert.style.opacity = '0';
+                    setTimeout(() => {
+                        alert.remove();
+                    }, 1000);
+                }, 4000);
+            });
+        });
+    </script>
+
 </body>
 </html>
