@@ -199,16 +199,26 @@ def upload_media():
     """
     form = MediaUploadForm()
     if form.validate_on_submit():
-        file = form.file.data
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            # Prevent overwriting files with the same name by adding timestamp if needed, 
-            # but for now we keep it simple.
-            file.save(os.path.join(UPLOAD_FOLDER, filename))
-            flash(f'File {filename} uploaded successfully!', 'success')
+        # Use request.files.getlist to get all uploaded files for a multiple input
+        files = request.files.getlist('file')
+        if not files:
+            flash('No files selected.', 'danger')
+            return render_template('admin/upload_media.html', form=form)
+
+        uploaded_count = 0
+        for file in files:
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(UPLOAD_FOLDER, filename))
+                uploaded_count += 1
+            else:
+                flash(f'File {file.filename if file else "unknown"} has an invalid type.', 'danger')
+        
+        if uploaded_count > 0:
+            flash(f'Successfully uploaded {uploaded_count} file(s).', 'success')
             return redirect(url_for('admin.media_gallery'))
         else:
-            flash('Invalid file type.', 'danger')
+            flash('No valid files were uploaded.', 'danger')
             
     return render_template('admin/upload_media.html', form=form)
 

@@ -33,8 +33,8 @@ class MediaUploadForm(FlaskForm):
     """
     Form for uploading media files.
     """
-    file = FileField('Upload File', validators=[
+    file = FileField('Upload Files', validators=[
         DataRequired()
-    ])
+    ], render_kw={"multiple": True})
     submit = SubmitField('Upload')
 

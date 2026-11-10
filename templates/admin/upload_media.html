@@ -48,10 +48,14 @@
     const label = fileInput.closest('label');
     const statusText = label.querySelector('p');
 
-    // Update text when file is selected via click
+    // Update text when files are selected via click
     fileInput.addEventListener('change', function() {
-        if (this.files && this.files[0]) {
-            statusText.innerHTML = `<span class="font-semibold text-blue-600">${this.files[0].name}</span> selected`;
+        if (this.files && this.files.length > 0) {
+            const filenames = Array.from(this.files).map(f => f.name).join(', ');
+            statusText.innerHTML = `<span class="font-semibold text-blue-600">${this.files.length} file(s) selected</span>`;
+            if (this.files.length === 1) {
+                statusText.innerHTML = `<span class="font-semibold text-blue-600">${filenames}</span> selected`;
+            }
         }
     });
 
@@ -84,9 +88,11 @@
         const files = dt.files;
 
         if (files && files.length > 0) {
-            // Using DataTransfer to programmatically set files on the input
+            // Using DataTransfer to programmatically set files on the input (supports multiple)
             const dataTransfer = new DataTransfer();
-            dataTransfer.items.add(files[0]);
+            for (let i = 0; i < files.length; i++) {
+                dataTransfer.items.add(files[i]);
+            }
             fileInput.files = dataTransfer.files;
             
             // Trigger the change event manually so the filename is displayed
