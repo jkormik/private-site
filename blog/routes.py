@@ -29,6 +29,10 @@ def index():
         all_tags = db.session.query(BlogPost.tag).filter(BlogPost.tag.isnot(None)).distinct().all()
         tags = [t[0] for t in all_tags]
         
+        # Add permanent tag for cooperation/resume redirect
+        if "Сотрудничество" not in tags:
+            tags.append("Сотрудничество")
+        
         return render_template('blog/index.html', posts=posts, tags=tags, selected_tags=selected_tags)
     except Exception as e:
         # Log error here in a real app
