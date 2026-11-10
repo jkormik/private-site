@@ -88,5 +88,6 @@ def home():
     return redirect(url_for('blog.index'))
 
 if __name__ == '__main__':
-    # Use environment variable for debug mode to prevent accidental production exposure
-    app.run(port=5001, debug=os.getenv("FLASK_DEBUG", "False").lower() == "true")
+    # Use environment variable for port to be compatible with most hosting services
+    port = int(os.environ.get("PORT", 5001))
+    app.run(port=port, debug=os.getenv("FLASK_DEBUG", "False").lower() == "true")
